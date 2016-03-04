@@ -1,0 +1,248 @@
+<!--?xml version=1.0 encoding=utf-8?-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#efeff4"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:background="@color/color_blue"
+        android:orientation="horizontal"
+        android:id="@+id/layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="我"
+            android:id="@+id/textView"
+            android:textSize="25dp"
+            android:textColor="@color/background_material_light"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#efeff4"></LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#ffffff"></LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <RelativeLayout
+            android:id="@+id/id_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/id_label"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="学号"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/id"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        </RelativeLayout >
+
+        <RelativeLayout
+            android:id="@+id/name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓名"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/name"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sex_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/sex_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/sex"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/class_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/class_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="班级"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/class_"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        </RelativeLayout >
+
+        <RelativeLayout
+            android:id="@+id/school_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/school_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学院"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/school"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        </RelativeLayout >
+
+        <RelativeLayout
+            android:id="@+id/major_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/major_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="专业"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/major"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        </RelativeLayout >
+
+        <RelativeLayout
+            android:id="@+id/grade_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/grade_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年级"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/grade"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        </RelativeLayout >
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#efeff4"></LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shake"
+        android:background="#ffffff"
+        android:text="测测期末能拿多少分"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#efeff4"></LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/about"
+        android:background="#ffffff"
+        android:text="关于我们"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#efeff4"></LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/quit"
+        android:text="退出登录"
+        android:layout_marginBottom="30dp"
+        android:textColor="#ffffff"
+        android:background="#ff0000"/>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,198 @@
+<LinearLayout
+    android:id="@+id/LinearLayout1"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vPager"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1.0"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+    <RelativeLayout
+        android:background="#22292C"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_width="wrap_content"
+            android:text="MyES——个人教务系统"
+            android:textColor="#ffffff"
+            android:textSize="18sp">
+        </TextView>
+
+        <Button
+            android:background="@drawable/ap9"
+            android:id="@+id/btnadd"
+            android:layout_alignBaseline="@+id/textView1"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_height="30dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="30dp">
+        </Button>
+
+
+        <ImageView
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:src="@drawable/aoc">
+        </ImageView>
+
+        <LinearLayout
+            android:background="#FCFCFC"
+            android:layout_height="55dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/weixin_layout"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="0dp">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/weixin_img"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="30dp"
+                        android:layout_width="30dp"
+                        android:src="@drawable/ahk">
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/weixin_txt"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="看课表"
+                        android:textColor="#999999">
+                    </TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tongxunlu_layout"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="0dp">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/tongxunlu_img"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="30dp"
+                        android:layout_width="30dp"
+                        android:src="@drawable/ahi">
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/tongxunlu_txt"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="查成绩"
+                        android:textColor="#999999">
+                    </TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/faxian_layout"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="0dp">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/faxian_img"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="30dp"
+                        android:layout_width="30dp"
+                        android:src="@drawable/ahm">
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/faxian_txt"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="学霸圈"
+                        android:textColor="#999999">
+                    </TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/me_layout"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="0dp">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/me_img"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="30dp"
+                        android:layout_width="30dp"
+                        android:src="@drawable/aho">
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/me_txt"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="我自己"
+                        android:textColor="#999999">
+                    </TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

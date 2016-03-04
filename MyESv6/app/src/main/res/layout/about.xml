@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableRow android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开发人员"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="学号"/>
+        </TableRow>
+        <TableRow android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="吴俊惟"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13331272"/>
+        </TableRow>
+        <TableRow android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="吴嘉华"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13331271"/>
+        </TableRow>
+        <TableRow android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方锡鑫"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13331049"/>
+        </TableRow>
+        <TableRow android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="陈庆锋"/>
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13331015"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
