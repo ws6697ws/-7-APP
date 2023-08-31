@@ -73,7 +73,7 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
             if (pick != null && pick.first > 0.0) {
                 pickAndAssignPath(pick)
                 assignEdge(pick)
-                pathHashSet.add(pick.third)
+                pathHashSet.add(pick.third.toMutableList())
             } else {
                 break
             }
@@ -83,7 +83,7 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
             P2Extra()
 
         // Added Code
-        for ((k, v) in edgeMap1) {
+        for ((k, v) in edgeMap2) {
             edgeMap3.put(k, DoubleArray(edgeMap2[k]!!+1, {0.0}))
             edgeMap4.put(k, 0)
             edgeMap5.put(k, DoubleArray(edgeMap2[k]!!+1, {0.0}))
@@ -117,19 +117,37 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
         }
 
          */
-
+        val thi=1
         while (true) {
             val addedCandidates = calCandidates6(srcDstPairs)
 
             var pick1 = addedCandidates.maxBy { it.first }
 
+            if (pick1==null) {
+                println("empty")
+                break
+            }
 
-            val tmpPath = pick!!.third.first
-            val tmpLen = tmpPath.size
+
+            val ty = pick1.third.first.edges()
+            var tnum=0
+            for (te in ty) {
+                tnum+=1
+                val ss1 = pick1.third.second[tnum-1].first
+                val ss = pick1.third.second[tnum].first
+                val rr = te.n1.links.filter { !it.assigned && it.contains(te.n2)}.size
+                val kk =  Math.min(rr, Math.min(pick1.third.first[tnum-1].remainingQubits - ss1 - ss, pick1.third.first[tnum].remainingQubits-ss))
+                if (kk < 0) {
+                    val kj=0
+                }
+            }
+
             var isAssign = false
 
-            var pick = completePath(pick1)
-
+            //var pick = completePath(pick1!!)
+            var pick = pick1
+            val tmpPath = pick!!.third.first
+            val tmpLen = tmpPath.size
             for (iii in 1..tmpLen-1) {
                 if (pick!!.third.second[iii].first > 0) {
                     isAssign = true
@@ -153,16 +171,22 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
         val ttmpPath = ppick.third.first
         val tmpArr = IntArray(ttmpPath.size, {0})
         (0..ttmpPath.size-2).forEach { i ->
-            val wid=ttmpPath[i].links.filter { !it.assigned && it.contains(p[i + 1]) }
-            if (wid.isNotEmpty()) {
-                var minw=Math.min(wid.size, ttmpPath[i].remainingQubits-tmpArr[i])
-                minw=Math.min(minw, ttmpPath[i+1].remainingQubits-tmpArr[i+1])
+
+            var tmpDataFirst = ppick.third.second[i+1].first
+            var tmpDataSecond = ppick.third.second[i+1].second
+            var tmpDataThird = ppick.third.second[i+1].third.clone()
+            val wid=ttmpPath[i].links.filter { !it.assigned && it.contains(ttmpPath[i + 1]) }.size-tmpDataFirst
+            var minw=Math.min(wid, ttmpPath[i].remainingQubits-tmpArr[i]-tmpDataFirst-ppick.third.second[i].first)
+            minw=Math.min(minw, ttmpPath[i+1].remainingQubits-tmpArr[i+1]-tmpDataFirst)
+            if (minw <0) {
+                var vd = 1
+            }
+            if (minw>0) {
+                var vd = 1
                 if(minw>0){
-                    var tmpDataFirst = ppick.third.second[i+1].first
-                    var tmpDataSecond = ppick.third.second[i+1].second
-                    var tmpDataThird = ppick.third.second[i+1].third.clone()
+
                     val tmpNewArray = DoubleArray(minw+1, {0.0})
-                    val tmpProba = topo.edgeProbability(Edge(Pair(ttmpPath[i], ttmpPath[i+!])))
+                    val tmpProba = topo.edgeProbability(Edge(Pair(ttmpPath[i], ttmpPath[i+1])))
                     for (jj in 0..minw) {
                         val pro = C_(minw, jj) * tmpProba.pow(jj) * (1 - tmpProba).pow(minw- jj)
                         tmpNewArray[jj] = pro
@@ -192,7 +216,10 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                 val tempNum = edgeMap1[tempEdge]!![major]!!
                 val tempProbability = topo.edgeProbability(tempEdge)
                 var startPro = 1.0
-                for (j in (0..tempNum)) {
+                for (j in (0..majorWid)) {
+                    var bb1=C_(tempNum, j)
+                    var bb2=tempProbability.pow(j)
+                    var bb3=(1-tempProbability).pow(tempNum-j)
                     val pro = C_(tempNum, j) * tempProbability.pow(j) * (1-tempProbability).pow(tempNum-j)
                     startPro = startPro - pro
                     tempM[i][j] = startPro
@@ -218,7 +245,9 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                 for (k in 0..majorWid) {
                     var tempVal = 1.0
                     for (j in sEdge.rangeTo(eEdge))  {
-                        if (j == i) continue
+                        if (j == i) {
+                            continue
+                        }
                         tempVal = tempVal * tempM[j][k]
                     }
                     externalPro[k] = prevVal - tempVal
@@ -233,7 +262,7 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                     internalPro[j] = C_(internalSize, j) * tempProbability.pow(j) * (1-tempProbability).pow(internalSize-j)
                 }
 
-                val edgeRemainPro = Array<Double>(internalSize+1){jj->0.0}
+                var edgeRemainPro = Array<Double>(internalSize+1){jj->0.0}
 
                 for (j in 0..externalPro.size-1) {
                     for (k in 0..internalPro.size-1) {
@@ -248,6 +277,12 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                     }
                 }
 
+                if (majorP.edges().size == 1) {
+                    edgeRemainPro = Array<Double>(internalSize+1){jj->0.0}
+                    edgeRemainPro[0] = 1.0
+                }
+
+                val ttttt=0
                 if (edgeMap4[tempEdge] == 0) {
                     edgeMap4[tempEdge] = internalSize
                     for (j in 0..edgeRemainPro.size-1) {
@@ -308,8 +343,10 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                 edgeMap1[edgeI]!!.put(pick, pick.second)
                 edgeMap2[edgeI] = edgeMap2[edgeI]!! + pick.second
             } else {
-                val wid = edgeMap1[edgeI]?.get(majorPath)
+                val temp = edgeMap1[edgeI]!!
+                val wid = edgeMap1[edgeI]!![majorPath]
                 edgeMap1[edgeI]!!.put(majorPath, wid!!+pick.second)
+                val temp1 = edgeMap1[edgeI]!!
                 edgeMap2[edgeI] = edgeMap2[edgeI]!! + pick.second
             }
         }
@@ -318,7 +355,6 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
             val temp = Edge(Pair(pp[index], pp[index+1]))
             if (!edgeMap1.containsKey(temp)) {
                 edgeMap1[temp] = HashMap<PickedPath, Int>()
-                edgeMap2[temp] = 0
             }
             if (majorPath == null) {
                 edgeMap1[temp]?.put(pick, pick.second)
@@ -441,6 +477,13 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
         candidatePath.third.first.edges().forEach { (n1, n2) ->
             ttnum += 1
             val width = candidatePath.third.second[ttnum].first
+            val aa1 = n1.links.filter {  it.contains(n2) }.sortedBy { it.id }
+            val aa = n1.links.filter { !it.assigned && it.contains(n2) }.sortedBy { it.id }
+            if (aa.size < width) {
+                val a = 1
+            } else if (aa.size > width) {
+                val a = 1
+            }
             val links = n1.links.filter { !it.assigned && it.contains(n2) }.sortedBy { it.id }.subList(0, width)
             require({ links.size == width })
             //toAdd.first.add(links)
@@ -462,7 +505,7 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
             }.groupBy { it.n1 to it.n2 }.map {it.key}.toHashSet()
 
             availLinks.forEach { tempEdge ->
-                var availNum = topo.links.filter{!it.assigned && (tempEdge.equals(Edge(it.n1, it.n2)))}.size
+                var availNum = tempEdge.n1.links.filter{!it.assigned && it.contains(tempEdge.n2)}.size
                 availNum = Math.min(availNum, Math.min(tempEdge.n1.remainingQubits, tempEdge.n2.remainingQubits))
                 if (availNum > maxM) {
                     maxM = availNum
@@ -485,6 +528,9 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                         src = dst1
                         dst = src1
                     }
+                    val haoTotalE = HashMap<Edge, Int>()
+                    val haoArrayE = HashMap<Edge, DoubleArray>()
+                    val haoE4 = HashMap<Edge, Int>()
                     val E1 = HashMap<Int, Double>()
                     val E2 = HashMap<Int, DoubleArray>()
                     val E3 = HashMap<Int, Int>()
@@ -497,6 +543,53 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                     })
 
                     val prevFromSrc: HashMap<Node, Node> = hashMapOf()
+                    fun validate(n: Node, isR: Boolean) :Pair<Boolean, LinkedList<Node>>{
+                        var cur = n
+                        val path = LinkedList<Node>()
+                        var isAssigned = false
+                        while (cur != topo.sentinal) {
+                            if (isR) {
+                                path.addLast(cur)
+                            } else {
+                                path.addFirst(cur)
+                            }
+
+                            if (prevFromSrc[cur]!! != topo.sentinal) {
+                                if (haoE4[cur to prevFromSrc[cur]!!]!!>0) {
+                                    isAssigned = true
+                                }
+                            }
+                            cur = prevFromSrc[cur]!!
+                        }
+                        return Pair(isAssigned, path)
+
+                    }
+                    fun getPathFromSrc1(n: Node, isR: Boolean): Pair<MutableList<Node>, MutableList<Triple<Int, Int, DoubleArray>>> {
+                        val path = LinkedList<Node>()
+                        val path1 : List<Node>
+
+                        val outputP2 = LinkedList<Triple<Int, Int, DoubleArray>>()
+                        var cur = n
+                        while (cur != topo.sentinal) {
+                            path.addFirst(cur)
+                            cur = prevFromSrc[cur]!!
+                        }
+                        if (isR) {
+                            path1=path.reversed()
+                        } else{
+                            path1=path.toList()
+                        }
+                        val tmpEdgs = path1.edges()
+                        for (hi in tmpEdgs) {
+                            outputP2.addLast(Triple(haoE4[hi]!!,haoTotalE[hi]!!,haoArrayE[hi]!!.clone() ))
+
+                        }
+                        outputP2.addFirst(Triple(0,Int.MAX_VALUE,doubleArrayOf()))
+
+
+                        return Pair(path1.toMutableList(), outputP2.toMutableList())
+                    }
+
                     fun getPathFromSrc(n: Node, isR: Boolean): Pair<MutableList<Node>, MutableList<Triple<Int, Int, DoubleArray>>> {
                         val path = LinkedList<Node>()
                         val assignPath = LinkedList<Int>()
@@ -535,6 +628,22 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                         }
                         return Pair(outputP1.toMutableList(), outputP2.toMutableList())
                     }
+
+                    fun getPath(n: Node): MutableList<Node> {
+                        val path = LinkedList<Node>()
+
+
+                        var cur = n
+                        while (cur != topo.sentinal) {
+
+                            path.addFirst(cur)
+
+                            cur = prevFromSrc[cur]!!
+                        }
+
+                        return path.toMutableList()
+                    }
+
                     /*
                     fun getPathFromSrc(n: Node): MutableList<Node> {
                         val path = LinkedList<Node>()
@@ -550,7 +659,10 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
 
 
                     E1[src.id] = Double.POSITIVE_INFINITY
-                    E4[src.id] = Int.MAX_VALUE
+                    E4[src.id] = 0
+                    haoE4[src to topo.sentinal] = 0
+                    totalE[src.id] = Int.MAX_VALUE
+                    arrayE[src.id] = doubleArrayOf()
                     //E2[src.id] = DoubleArray(w+1, {1.0})
                     //E3[src.id] = 0
                     //E4[src.id] = Int.MAX_VALUE
@@ -566,14 +678,38 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                         if (u == dst) {
                             //candidate = E1[u.id].first to w also getPathFromSrc(dst)
                             if (E1[u.id]!! > maxEExt) {
+                                println("Current MaxM:" + maxM)
+                                println("Current W:" + w)
+                                println("Current Reverse:" + (qq==2))
+                                println("Current Ext:" + E1[u.id]!!)
+                                println("\n")
+
                                 var ttmpP : Pair<MutableList<Node>, MutableList<Triple<Int, Int, DoubleArray>>>
                                 if (qq == 1) {
-                                    ttmpP = getPathFromSrc(dst, false)
+                                    ttmpP = getPathFromSrc1(dst, false)
                                 } else {
-                                    ttmpP = getPathFromSrc(dst, true)
+                                    ttmpP = getPathFromSrc1(dst, true)
                                 }
                                 candidate = E1[u.id]!! to E3[u.id]!! also ttmpP
                                 maxEExt = E1[u.id]!!
+
+                                val ty = ttmpP.first.edges()
+                                var tnum=0
+                                for (te in ty) {
+                                    tnum+=1
+                                    var ss = ttmpP.second[tnum].first
+                                    var jj = haoE4[te]
+                                    var rr = te.n1.links.filter { !it.assigned && it.contains(te.n2)}.size
+                                    if (rr < ss) {
+                                        val bh=rr
+                                        val k=0
+                                        if (rr < jj!!) {
+                                            val kj=ss
+
+                                        }
+
+                                    }
+                                }
                             }
                             break
                         }
@@ -582,20 +718,37 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                         }
 
                         val neighborList =
-                            topo.links.filter { it.contains(u) }.groupBy { it.n1 to it.n2 }.map{it.key}
+                            u.links.filter { (!(it.theOtherEndOf(u) in prevFromSrc)) }.groupBy { it.n1 to it.n2 }.map{it.key}
                                 .toHashSet()
-                        neighborList.forEach { it ->
+                        for (it in neighborList) {
                             val oth = it.otherThan(u)
-                            val lenNum = topo.links.filter { !it.assigned && it.contains(u) && it.contains(oth) }.size
+                            if (oth in prevFromSrc) continue
+
+
+
+                            val lenNum = u.links.filter { !it.assigned && it.contains(oth) }.size
                             val assignNum = Math.min(
                                 w,
-                                Math.min(lenNum, Math.min(u.remainingQubits - E4[u.id]!!, oth.remainingQubits))
+                                Math.min(lenNum, Math.min(u.remainingQubits - haoE4[u to prevFromSrc[u]!!]!!, oth.remainingQubits))
                             )
+
+                            if (oth == dst) {
+                                var (isA, pa) = validate(u, qq==2)
+                                if (qq == 2) {
+                                    pa.addFirst(oth)
+                                } else {
+                                    pa.addLast(oth)
+                                }
+                                if (isA == false && pathHashSet.contains(pa)) continue
+                            }
                             var isGo = false
                             var tmpNewArray = doubleArrayOf()
 
                             var totalArray = doubleArrayOf()
                             var totalNum = 0
+                            if (assignNum<0){
+                                val ki=0
+                            }
 
                             if (assignNum > 0) {
                                 isGo = true
@@ -606,7 +759,7 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                                     curArray[j] = pro
                                 }
 
-                                if (edgeMap2.contains(it)) {
+                                if (edgeMap3.contains(it)) {
                                     val tmpPrevP = edgeMap3[it]!!.clone()
                                     val tmpPrevWid = tmpPrevP.size - 1
                                     var ttArray = DoubleArray(assignNum + tmpPrevWid + 1, { 0.0 })
@@ -636,11 +789,11 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                                 }
 
                             } else {
-                                if (edgeMap2.contains(it)) {
+                                if (edgeMap3.contains(it)) {
                                     isGo = true
                                     tmpNewArray = edgeMap5[it]!!.clone()
                                     totalArray = edgeMap3[it]!!.clone()
-                                    totalNum = edgeMap3.size-1
+                                    totalNum = edgeMap3[it]!!.size-1
                                 }
                             }
                             if (isGo) {
@@ -670,7 +823,7 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                                     }
                                     newResult = tmpExt
                                 } else {
-                                    val pathLong = getPathFromSrc(u, qq == 2).first.size-1
+                                    val pathLong = getPath(u).size-1
                                     var tmpExt = 0.0
                                     for (k in (1..newWid)) {
                                         var tmpExt1 = 0.0
@@ -686,6 +839,13 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                                     E1.put(oth.id, newResult)
                                     E2.put(oth.id, newResultArray.clone())
                                     E3.put(oth.id, newWid)
+                                    if(oth.links.filter { !it.assigned && it.contains(u)}.size < assignNum) {
+                                        val ij=0
+                                    }
+                                    haoE4.put(u to oth, assignNum)
+                                    haoTotalE.put(u to oth, totalNum)
+                                    haoArrayE.put(u to oth, totalArray.clone())
+
                                     E4.put(oth.id, assignNum)
                                     totalE.put(oth.id, totalNum)
                                     arrayE.put(oth.id, totalArray.clone())
@@ -1465,9 +1625,9 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
                 val collectedLinks = ttmpEdge.n1.links.filter {
                     it.entangled && it.contains(ttmpEdge.n2) && !it.utilized
                 }.sortedBy { it.id }.take(edgeUtilize[iii])
-                edgeCollect[iii] = ArrayList<Link>(edgeUtilize[iii])
+                edgeCollect[iii] = ArrayList<Link>()
                 for (jjj in 0..edgeUtilize[iii] - 1) {
-                    edgeCollect[iii][jjj] = collectedLinks.get(jjj)
+                    edgeCollect[iii].add(collectedLinks.get(jjj))
                     edgeCollect[iii][jjj].utilize()
                 }
 
@@ -1494,6 +1654,7 @@ open class TestAlgorithm(topo: Topo, val allowRecoveryPaths: Boolean = true) : A
             val majorPath = pickPath.first
             addedP4Swapping(width, majorPath)
         }
+        val jjj=0
     }
     override fun P4() {
         addedP4()
